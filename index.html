@@ -204,7 +204,9 @@ const state = {
   level: 1,
   ttt:{ board:Array(9).fill(null), score:{me:0}, rounds:0, matchOver:false, moves:0 },
   sudoku:{},
-  boss:{ ready:false, blocks:0 }
+  boss:{ ready:false, blocks:0 },
+  progress:{ ttt:false, sudoku:false, boss:false },
+  victoryUnlocked:false
 };
 
 const bgm = document.getElementById('bgm');
@@ -224,7 +226,12 @@ document.addEventListener('pointerdown', playSong, { once:true });
 
 const $ = sel => document.querySelector(sel);
 const $$ = sel => document.querySelectorAll(sel);
-function show(id){ $$('.screen').forEach(s=>s.classList.remove('active')); $(id).classList.add('active'); updateHUD(); }
+function show(id){
+  if(id==='#screen-end' && !state.victoryUnlocked){ return; }
+  $$('.screen').forEach(s=>s.classList.remove('active'));
+  $(id).classList.add('active');
+  updateHUD();
+}
 function updateHUD(){
   const label = typeof state.level === 'number' ? `Level ${state.level}` : state.level;
   $('#lvl').textContent = label;
@@ -249,7 +256,17 @@ function hidePopup(){
   document.body.classList.remove('popup-open');
 }
 
-$('#start').addEventListener('click',()=>{ playSong(); state.level=1; updateHUD(); initTTT(); show('#screen-ttt'); });
+$('#start').addEventListener('click',()=>{
+  playSong();
+  state.level=1;
+  state.progress.ttt=false;
+  state.progress.sudoku=false;
+  state.progress.boss=false;
+  state.victoryUnlocked=false;
+  updateHUD();
+  initTTT();
+  show('#screen-ttt');
+});
 $('#restart').addEventListener('click',()=>{ location.reload(); });
 
 const yapLines = [
@@ -310,6 +327,7 @@ function endRound(){
   $$('#tttBoard button').forEach(b=> b.disabled=true);
   $('#tttMsg').textContent = 'Victory! Yapbot short-circuited.';
   $('#tttReset').textContent = 'Play Again';
+  state.progress.ttt = true;
   showPopup({
     title: 'Level 1 Clear!',
     message: 'Yapbot is stunned by your instant win. Ready for a neon-brained Sudoku?',
@@ -367,6 +385,7 @@ $('#checkSudoku').addEventListener('click', ()=>{
   const values=[...$('#sGrid').querySelectorAll('input')].map(inp=> +inp.value || 0);
   if(!isValid(values)){ $('#sMsg').innerHTML = '<span class="err">Not quite — recheck each row and column.</span>'; return; }
   state.sudoku.cleared = true;
+  state.progress.sudoku = true;
   $('#sMsg').innerHTML = '<span class="ok">Solved! Final stage unlocked.</span>';
   $('#checkSudoku').disabled=true;
   $('#newSudoku').disabled=true;
@@ -399,6 +418,8 @@ const crocLines=[
 ];
 function initBoss(){
   state.boss.ready=false; state.boss.blocks=0;
+  state.progress.boss = false;
+  state.victoryUnlocked = false;
   $('#callKia').disabled=false;
   ['block1','block2','block3'].forEach(id=>{
     const btn = $('#'+id);
@@ -424,11 +445,20 @@ $('#callKia').addEventListener('click',()=>{
     state.boss.blocks++;
     nextCrocLine();
     if(state.boss.blocks>=3){
-      state.level = 'Victory!';
-      show('#screen-end');
+      state.progress.boss = true;
+      revealVictory();
     }
   });
 });
+
+function revealVictory(){
+  if(!(state.progress.ttt && state.progress.sudoku && state.progress.boss)) return;
+  state.victoryUnlocked = true;
+  state.level = 'Victory!';
+  $$('.screen').forEach(s=>s.classList.remove('active'));
+  $('#screen-end').classList.add('active');
+  updateHUD();
+}
 
 $('#giftBox').addEventListener('click',()=>{
   $('#giftMsg').textContent = '💌 Opened';
