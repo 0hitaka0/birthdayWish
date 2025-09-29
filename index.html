@@ -5,83 +5,71 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Inezia’s Birthday Quest • Sweet & Salty</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
   :root{
-    --bg:#080915;
-    --panel:#151640;
-    --panel-dark:#0d0e2a;
-    --fg:#f8f8ff;
-    --muted:#7f90d6;
-    --accent:#ff6ac1;
-    --accent-2:#7afff4;
-    --accent-dark:#ff3f9c;
-    --good:#7bff69;
-    --bad:#ff6d6d;
+    --bg:#0b0f16; --panel:#121826; --fg:#f6fbff; --muted:#a9b8c9;
+    --accent:#1e90ff; --accent-2:#72b7ff; --good:#66ffa8; --warn:#ffd447; --bad:#ff7a7a;
+    --ring: 0 0 0 2px rgba(30,144,255,.25);
   }
-  html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:'Press Start 2P','VT323',monospace;font-size:13px;letter-spacing:.6px}
-  body{background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:32px 32px,32px 32px}
-  .wrap{min-height:100%;display:grid;place-items:center;padding:32px}
-  .card{width:min(900px,96vw);background:var(--panel);border:4px solid #2a2c70;box-shadow:0 20px 50px rgba(0,0,0,.6);image-rendering:pixelated}
-  header{display:flex;gap:18px;align-items:center;justify-content:space-between;padding:20px;background:var(--panel-dark);border-bottom:4px solid #2a2c70}
-  .badges{display:flex;gap:14px;flex-wrap:wrap}
-  .badge{background:#202365;border:4px solid #2a2c70;padding:10px 14px;box-shadow:4px 4px 0 #030312;text-transform:uppercase}
-  .cta{display:flex;gap:14px}
-  button{appearance:none;border:4px solid #030312;border-radius:0;padding:12px 18px;font-weight:900;cursor:pointer;background:var(--accent);color:#030312;box-shadow:4px 4px 0 #030312;text-transform:uppercase;transition:transform .12s ease,box-shadow .12s ease}
-  button:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 #030312}
-  button:active{transform:translate(0,0);box-shadow:3px 3px 0 #030312}
-  button.secondary{background:var(--accent-2);color:#051b1c}
-  button[disabled]{background:#3c3e70;color:#0f1030;cursor:not-allowed;box-shadow:4px 4px 0 #030312;opacity:.7}
-  main{padding:26px;display:grid;gap:22px}
+  html,body{height:100%;margin:0;background:radial-gradient(1200px 800px at 50% 20%,#121826,var(--bg));color:var(--fg);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+  .wrap{min-height:100%;display:grid;place-items:center;padding:16px}
+  .card{width:min(760px,94vw);background:var(--panel);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden}
+  header{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 16px;background:linear-gradient(180deg,rgba(255,255,255,.04),transparent)}
+  .badges{display:flex;gap:8px;flex-wrap:wrap}
+  .badge{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:6px 10px;border-radius:999px;font-weight:700;letter-spacing:.3px}
+  .cta{display:flex;gap:8px}
+  button{appearance:none;border:0;border-radius:12px;padding:10px 14px;font-weight:800;letter-spacing:.3px;cursor:pointer;background:var(--accent);color:#081018;box-shadow:0 10px 22px rgba(30,144,255,.35)}
+  button.secondary{background:transparent;color:var(--fg);border:1px solid rgba(255,255,255,.16);box-shadow:none}
+  main{padding:24px 18px 32px;display:grid;gap:20px}
   .screen{display:none}
   .screen.active{display:block}
-  .title{font-size:clamp(16px,2.8vw,24px);margin:0 0 10px;text-transform:uppercase}
-  .sub{color:var(--muted);margin:0 0 14px;line-height:1.6}
-  .panel{background:var(--panel-dark);border:4px solid #2a2c70;box-shadow:6px 6px 0 #030312;padding:20px;image-rendering:pixelated}
+  .title{font-size:clamp(22px,3.2vw,30px);margin:0 0 4px}
+  .sub{opacity:.9;color:var(--muted);margin:0 0 12px}
+  .panel{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px}
   .center{display:grid;place-items:center;text-align:center}
-  .stage{display:grid;gap:20px}
+  .stage{display:grid;gap:18px}
+  .narrative{max-width:520px;margin:0 auto;text-align:center}
 
-  /* Tic Tac Toe */
-  .ttt{width:min(360px,90vw);aspect-ratio:1;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 auto}
-  .ttt button{background:#202365;border:4px solid #030312;color:var(--fg);font-size:38px;box-shadow:4px 4px 0 #030312}
-  .ttt button:focus{outline:none;box-shadow:0 0 0 4px rgba(255,255,255,.35)}
-  .ttt .win{background:#2f3480;color:#7afff4}
+  /* TTT */
+  .ttt{width:min(320px,80vw);aspect-ratio:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 auto}
+  .ttt button{background:#0f1522;border:1px solid rgba(255,255,255,.12);color:var(--fg);font-size:38px;font-weight:900;border-radius:14px}
+  .ttt button:focus{outline:none;box-shadow:var(--ring)}
+  .ttt .win{background:linear-gradient(180deg,rgba(102,255,168,.18),transparent)}
 
-  /* Sudoku */
-  .sudoku{display:grid;gap:16px}
-  .grid4{display:grid;grid-template-columns:repeat(4,60px);gap:12px;justify-content:center}
-  .grid4 input{width:60px;height:60px;text-align:center;font-size:28px;border:4px solid #030312;background:#1b1d54;color:var(--fg);font-family:'Press Start 2P','VT323',monospace}
-  .grid4 input.block{background:#10123a;color:#7afff4}
-  .grid4 input:focus{outline:none;box-shadow:0 0 0 4px rgba(122,255,244,.45)}
-  .err{color:var(--bad)}
-  .ok{color:var(--good)}
+  /* Sudoku 4x4 */
+  .sudoku{display:grid;gap:10px}
+  .grid4{display:grid;grid-template-columns:repeat(4,54px);gap:6px;justify-content:center}
+  .grid4 input{width:54px;height:54px;text-align:center;font-size:24px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:#0f1522;color:var(--fg)}
+  .grid4 input.block{background:#0c1220;border-color:rgba(255,255,255,.08)}
+  .grid4 input:focus{outline:none;box-shadow:var(--ring)}
+  .err{color:var(--bad);font-weight:700}
+  .ok{color:var(--good);font-weight:700}
 
   /* Boss */
-  .boss{display:grid;gap:18px}
-  .croc{display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:center}
-  @media (max-width:680px){.croc{grid-template-columns:1fr;text-align:center}}
-  .croc .face{width:150px;height:150px;background:linear-gradient(180deg,#3dd671,#1f8a46);border:4px solid #030312;position:relative;box-shadow:6px 6px 0 #030312}
-  .eye{position:absolute;top:38px;width:26px;height:26px;background:#fff;border:4px solid #030312;border-radius:50%}
-  .eye.left{left:32px}.eye.right{right:32px}
-  .pupil{position:absolute;top:6px;left:6px;width:12px;height:12px;background:#030312;border-radius:50%}
-  .teeth{position:absolute;bottom:10px;left:18px;right:18px;height:22px;display:flex;justify-content:space-between}
-  .teeth span{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:14px solid #fff;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.3))}
-  .speech{background:#1b1d54;border:4px solid #030312;padding:14px;box-shadow:4px 4px 0 #030312}
-  .qte{display:flex;gap:12px;flex-wrap:wrap}
-  .qte button{background:#1b1d54;color:var(--fg);box-shadow:4px 4px 0 #030312}
-  .qte button.good{background:var(--good);color:#030312}
+  .boss{display:grid;gap:12px;grid-template-columns:1fr;align-items:center}
+  .croc{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center}
+  .croc .face{width:120px;height:120px;border-radius:18px;background:linear-gradient(180deg,#2c8a3e,#1e5d2a);position:relative;border:1px solid rgba(255,255,255,.08)}
+  .eye{position:absolute;top:28px;width:22px;height:22px;background:#fff;border-radius:50%}
+  .eye.left{left:28px}.eye.right{right:28px}
+  .pupil{position:absolute;top:6px;left:6px;width:10px;height:10px;background:#0b0f16;border-radius:50%}
+  .teeth{position:absolute;bottom:6px;left:10px;right:10px;height:14px;display:flex;justify-content:space-between}
+  .teeth span{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:10px solid #fff;filter:drop-shadow(0 1px 0 rgba(0,0,0,.2))}
+  .speech{background:#0f1522;border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px}
+  .qte{display:flex;gap:8px;flex-wrap:wrap}
+  .qte button{background:#0f1522;border:1px solid rgba(255,255,255,.16);color:var(--fg);box-shadow:none}
+  .qte button.good{background:var(--good);color:#08331d}
 
   /* Gift */
-  .gift{display:grid;place-items:center;gap:18px;padding:14px}
-  .box{width:150px;height:110px;background:linear-gradient(180deg,var(--accent),var(--accent-2));border:4px solid #030312;box-shadow:6px 6px 0 #030312;position:relative}
-  .box:before{content:"";position:absolute;left:50%;top:-26px;transform:translateX(-50%);width:108px;height:36px;background:linear-gradient(180deg,var(--accent-2),var(--accent-dark));border:4px solid #030312;box-shadow:4px 4px 0 #030312}
-  .ribbon{position:absolute;left:50%;transform:translateX(-50%);top:-6px;width:20px;height:124px;background:#f5f5ff}
+  .gift{display:grid;place-items:center;gap:12px;padding:10px}
+  .box{width:120px;height:90px;border-radius:12px;background:linear-gradient(180deg,var(--accent),var(--accent-2));position:relative}
+  .box:before{content:"";position:absolute;left:50%;top:-18px;transform:translateX(-50%);width:84px;height:26px;background:linear-gradient(180deg,var(--accent-2),var(--accent));border-radius:12px 12px 0 0}
+  .ribbon{position:absolute;left:50%;transform:translateX(-50%);top:-2px;width:14px;height:92px;background:#f7fbff;border-radius:6px}
 
   /* Popup */
-  .popup{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:24px;z-index:1000}
-  .popup.active{display:flex}
-  .popup-backdrop{position:absolute;inset:0;background:rgba(8,9,21,.82);backdrop-filter:blur(4px)}
-  .popup-card{position:relative;width:min(360px,90vw);text-align:center}
-  body.popup-open{overflow:hidden}
+  .popup{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:24px;z-index:2000;}
+  .popup.active{display:flex;}
+  .popup-backdrop{position:absolute;inset:0;background:rgba(8,12,20,.78);backdrop-filter:blur(6px);}
+  .popup-card{position:relative;max-width:360px;width:min(360px,90vw);text-align:center;z-index:1;}
+  body.popup-open{overflow:hidden;}
 </style>
 </head>
 <body>
@@ -92,6 +80,7 @@
         <div class="badges">
           <span class="badge" id="lvl">Level 1</span>
           <span class="badge">Player: <b style="margin-left:6px">Inezia</b></span>
+          <span class="badge">Chocolates: <b id="choc">0</b> 🍫</span>
         </div>
         <div class="cta">
           <button id="restart" class="secondary">Restart</button>
@@ -99,55 +88,51 @@
       </header>
 
       <main>
+        <!-- Intro / narrative -->
         <section id="screen-intro" class="screen active">
-          <div class="panel center">
+          <div class="panel narrative">
             <h2 class="title">Sweet & Salty: Inezia’s Birthday Quest</h2>
-            <p class="sub">Three pixel missions stand between you and the manipulative crocodile. Summon Kia, shut down the lies, and unlock your birthday surprise.</p>
-            <div class="gift" style="margin:18px 0">
+            <p class="sub">Collect chocolates, pass each mission, and team up with Kia to defeat the Manipulative Crocodile. Ready? 💙</p>
+            <div class="gift" style="margin:12px 0 18px">
               <div class="box"><span class="ribbon"></span></div>
-              <p class="sub">A neon present is waiting…</p>
+              <p class="sub">A surprise awaits at the end…</p>
             </div>
             <button id="start">Start Adventure</button>
           </div>
         </section>
 
+        <!-- Level 1: TicTacToe -->
         <section id="screen-ttt" class="screen">
           <div class="panel stage">
             <div class="center">
               <h3 class="title">Level 1 · Tic Tac Toe</h3>
-              <p class="sub">Beat the yap-happy bot in a single swoop. Tap one square and the game bends in your favor.</p>
-              <div id="tttBoard" class="ttt"></div>
-              <p id="tttMsg" class="sub"></p>
-              <div class="cta" style="justify-content:center"><button id="tttReset" class="secondary">Restart Level</button></div>
+              <p class="sub">Beat the chatty Yapbot in a best-of-three to earn <b>5 chocolates</b>.</p>
             </div>
-            <div class="panel">
-              <h4 class="title">Yapbot says…</h4>
-              <div id="yapLines" class="speech">“I’m not annoying, I’m just efficient at talking.”</div>
-            </div>
+            <div id="tttBoard" class="ttt"></div>
+            <p id="tttMsg" class="sub" style="text-align:center"></p>
+            <div class="speech" id="yapLines">“I’m not annoying, I’m just efficient at talking.”</div>
+            <div class="cta" style="justify-content:center"><button id="tttReset" class="secondary">Reset Round</button></div>
           </div>
         </section>
 
+        <!-- Level 2: Sudoku 4x4 -->
         <section id="screen-sudoku" class="screen">
-          <div class="panel stage">
-            <div class="center">
-              <h3 class="title">Level 2 · Mini Sudoku</h3>
-              <p class="sub">Place digits 1–4 without repeats in any row or column. Solve the neon grid to reach the boss.</p>
-              <div class="sudoku">
-                <div id="sGrid" class="grid4"></div>
-                <div class="cta" style="justify-content:center">
-                  <button id="checkSudoku">Check</button>
-                  <button id="newSudoku" class="secondary">New Puzzle</button>
-                </div>
-                <p id="sMsg" class="sub"></p>
+          <div class="panel stage center">
+            <h3 class="title">Level 2 · Mini Sudoku (4×4)</h3>
+            <p class="sub">Each row and column must contain the numbers <b>1–4</b>. Finish to earn <b>10 chocolates</b>.</p>
+            <div class="sudoku">
+              <div id="sGrid" class="grid4"></div>
+              <div class="cta" style="justify-content:center">
+                <button id="checkSudoku">Check</button>
+                <button id="newSudoku" class="secondary">New Puzzle</button>
               </div>
+              <p id="sMsg" class="sub"></p>
             </div>
-            <div class="panel">
-              <h4 class="title">Retro Tip</h4>
-              <p class="sub">Lock the givens, scan rows and columns, and let your brain glitch the crocodile’s plans.</p>
-            </div>
+            <p class="sub" style="max-width:420px;margin:0 auto">Blocked cells are clues Kia left for you. Keep focus—the crocodile is waiting.</p>
           </div>
         </section>
 
+        <!-- Level 3: Boss -->
         <section id="screen-boss" class="screen">
           <div class="panel boss">
             <h3 class="title">Final Boss · Manipulative Crocodile 🐊</h3>
@@ -158,10 +143,10 @@
                 <div class="teeth"><span></span><span></span><span></span><span></span></div>
               </div>
               <div>
-                <div id="crocLine" class="speech">“Why listen to anyone else when I’m always right?”</div>
-                <p class="sub">Ping Kia to shield your heart, then smash three lies in a row to win.</p>
+                <div id="crocLine" class="speech">“Why share when you can keep all the chocolates for yourself?”</div>
+                <p class="sub">Spend <b>10 chocolates</b> to summon <b>Kia</b> and block the manipulation. Then hit 3 quick blocks to win.</p>
                 <div class="cta" style="flex-wrap:wrap">
-                  <button id="callKia">Call Kia</button>
+                  <button id="payKia">Pay Kia 10 🍫</button>
                   <button id="block1" class="secondary" disabled>Block 1</button>
                   <button id="block2" class="secondary" disabled>Block 2</button>
                   <button id="block3" class="secondary" disabled>Block 3</button>
@@ -171,18 +156,19 @@
           </div>
         </section>
 
+        <!-- Ending -->
         <section id="screen-end" class="screen center">
           <div class="panel center">
             <h3 class="title">Victory! ✨</h3>
-            <p class="sub">Kia & Inezia settle in the glow of pixel skies, ready to unwrap the surprise together.</p>
+            <p class="sub">Kia & Inezia share chocolate under sparkly skies. A gift appears…</p>
             <div class="gift">
               <div class="box" id="giftBox"><span class="ribbon"></span></div>
-              <p id="giftMsg" class="sub">Tap the gift</p>
+              <p id="giftMsg" class="sub">Click the gift to open</p>
             </div>
-            <div id="wish" class="panel" style="display:none; margin-top:16px">
+            <div id="wish" class="panel" style="display:none; margin-top:12px">
               <h3 class="title">Happy Birthday, Inezia 💙</h3>
-              <p class="sub">You’re the brightest glitch in every timeline—clever, hilarious, and impossible not to adore. May your year be epic, safe, and sprinkled with the sweetest adventures. — Kia</p>
-              <div class="cta" style="justify-content:center"><button id="playAgain">Play Again</button></div>
+              <p class="sub">You’re the sweetest human—sharp, funny, and full of light. May your year be cozy, loved, and always stocked with chocolate. — Kia</p>
+              <div class="cta"><button id="playAgain">Play Again</button></div>
             </div>
           </div>
         </section>
@@ -202,11 +188,10 @@
 <script>
 const state = {
   level: 1,
-  ttt:{ board:Array(9).fill(null), score:{me:0}, rounds:0, matchOver:false, moves:0 },
+  chocolates: 0,
+  ttt:{ board:Array(9).fill(null), player:'X', bot:'O', score:{me:0,bot:0}, rounds:0, matchOver:false },
   sudoku:{},
-  boss:{ ready:false, blocks:0 },
-  progress:{ ttt:false, sudoku:false, boss:false },
-  victoryUnlocked:false
+  boss:{ paid:false, blocks:0 }
 };
 
 const bgm = document.getElementById('bgm');
@@ -221,22 +206,20 @@ function playSong(){
     musicStarted = true;
   }
 }
-window.addEventListener('load',()=>{ setTimeout(()=> playSong(), 200); });
+window.addEventListener('load',()=>{ setTimeout(()=> playSong(), 150); });
 document.addEventListener('pointerdown', playSong, { once:true });
 
+// UI helpers
 const $ = sel => document.querySelector(sel);
 const $$ = sel => document.querySelectorAll(sel);
-function show(id){
-  if(id==='#screen-end' && !state.victoryUnlocked){ return; }
-  $$('.screen').forEach(s=>s.classList.remove('active'));
-  $(id).classList.add('active');
-  updateHUD();
-}
+function show(id){ $$('.screen').forEach(s=>s.classList.remove('active')); $(id).classList.add('active'); updateHUD(); }
 function updateHUD(){
   const label = typeof state.level === 'number' ? `Level ${state.level}` : state.level;
   $('#lvl').textContent = label;
+  $('#choc').textContent = state.chocolates;
 }
 
+// Popup helpers
 const popupEl = $('#popup');
 const popupBtn = $('#popupBtn');
 function showPopup({ title, message, buttonText = 'Continue', onConfirm }){
@@ -249,26 +232,18 @@ function showPopup({ title, message, buttonText = 'Continue', onConfirm }){
   };
   popupEl.classList.add('active');
   document.body.classList.add('popup-open');
-  setTimeout(()=> popupBtn.focus(), 80);
+  setTimeout(()=> popupBtn.focus(), 60);
 }
 function hidePopup(){
   popupEl.classList.remove('active');
   document.body.classList.remove('popup-open');
 }
 
-$('#start').addEventListener('click',()=>{
-  playSong();
-  state.level=1;
-  state.progress.ttt=false;
-  state.progress.sudoku=false;
-  state.progress.boss=false;
-  state.victoryUnlocked=false;
-  updateHUD();
-  initTTT();
-  show('#screen-ttt');
-});
+// Intro
+$('#start').addEventListener('click',()=>{ playSong(); state.level=1; updateHUD(); initTTT(); show('#screen-ttt'); });
 $('#restart').addEventListener('click',()=>{ location.reload(); });
 
+/******************** Level 1: TicTacToe ********************/ 
 const yapLines = [
   "I’m not overthinking—I’m just thinking twice.",
   "If I lose, it’s a growth mindset moment.",
@@ -278,68 +253,86 @@ const yapLines = [
 function sayYap(){ $('#yapLines').textContent = `“${yapLines[Math.floor(Math.random()*yapLines.length)]}”`; }
 
 function initTTT(){
-  state.ttt.board = Array(9).fill(null); state.ttt.rounds=0; state.ttt.score.me=0; state.ttt.matchOver=false; state.ttt.moves=0;
-  const board = $('#tttBoard'); board.innerHTML='';
+  state.ttt.board = Array(9).fill(null); state.ttt.player='X'; state.ttt.bot='O'; state.ttt.rounds=0; state.ttt.score={me:0,bot:0}; state.ttt.matchOver=false;
+  const b = $('#tttBoard'); b.innerHTML='';
   for(let i=0;i<9;i++){
     const cell = document.createElement('button');
     cell.dataset.idx=i;
     cell.addEventListener('click', onTTTClick);
-    board.appendChild(cell);
+    b.appendChild(cell);
   }
-  $('#tttMsg').textContent = 'Quick warm-up — tap any square to trigger the win!';
-  $('#tttReset').textContent = 'Restart Level';
+  $('#tttMsg').textContent = 'Best of 3 — you start as X';
+  $('#tttReset').textContent = 'Reset Round';
   $('#tttReset').onclick = ()=> resetTTTRound();
   sayYap();
 }
 function resetTTTRound(){
   if(state.ttt.matchOver){ initTTT(); return; }
-  state.ttt.board = Array(9).fill(null); state.ttt.moves=0;
+  state.ttt.board = Array(9).fill(null);
   $$('#tttBoard button').forEach(c=>{c.textContent=''; c.classList.remove('win'); c.disabled=false;});
   $('#tttMsg').textContent='New round!';
   sayYap();
 }
 function onTTTClick(e){
-  const idx = +e.currentTarget.dataset.idx; if(state.ttt.board[idx]) return;
-  move(idx);
-  state.ttt.moves++;
-  if(state.ttt.moves===1){ grantFirstTryWin(idx); return; }
-  if(checkWin()){ endRound(); }
+  const idx = +e.currentTarget.dataset.idx; if (state.ttt.board[idx]) return;
+  move(idx, state.ttt.player); if (checkWin(state.ttt.player)) return endRound('me');
+  if (isFull()) return endRound('draw');
+  // simple bot: win > block > center > random
+  const botIdx = tttBotMove(); move(botIdx, state.ttt.bot); if (checkWin(state.ttt.bot)) return endRound('bot');
+  if (isFull()) return endRound('draw');
 }
-function move(idx){ state.ttt.board[idx]='X'; const btn = $$('#tttBoard button')[idx]; btn.textContent='X'; btn.disabled=true; }
+function move(idx, sym){ state.ttt.board[idx]=sym; const btn = $$('#tttBoard button')[idx]; btn.textContent=sym; btn.disabled=true; }
 const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-function checkWin(){
-  for(const w of wins){ if(w.every(i=>state.ttt.board[i]==='X')){ w.forEach(i=> $$('#tttBoard button')[i].classList.add('win')); return true; } }
+function checkWin(sym){
+  for(const w of wins){ if(w.every(i=>state.ttt.board[i]===sym)){ w.forEach(i=> $$('#tttBoard button')[i].classList.add('win')); return true;} }
   return false;
 }
-const autoWins = {
-  0:[1,2],1:[0,2],2:[0,1],
-  3:[4,5],4:[0,8],5:[3,4],
-  6:[7,8],7:[6,8],8:[6,7]
-};
-function grantFirstTryWin(firstMove){
-  const helpers = autoWins[firstMove] || [0,1];
-  helpers.forEach(i=>{ if(state.ttt.board[i]===null){ move(i); } });
-  checkWin();
-  endRound();
+function isFull(){ return state.ttt.board.every(Boolean); }
+function emptyIdx(){ return state.ttt.board.map((v,i)=>v?null:i).filter(v=>v!==null); }
+function tttBotMove(){
+  // try to win
+  for(const i of emptyIdx()){ state.ttt.board[i]=state.ttt.bot; if(checkWin(state.ttt.bot)){ state.ttt.board[i]=null; return i;} state.ttt.board[i]=null; }
+  // try to block
+  for(const i of emptyIdx()){ state.ttt.board[i]=state.ttt.player; if(checkWin(state.ttt.player)){ state.ttt.board[i]=null; return i;} state.ttt.board[i]=null; }
+  // center if free
+  if(!state.ttt.board[4]) return 4;
+  // otherwise random
+  const free = emptyIdx(); return free[Math.floor(Math.random()*free.length)];
 }
-function endRound(){
-  state.ttt.matchOver = true;
+function endRound(result){
+  state.ttt.rounds++;
   $$('#tttBoard button').forEach(b=> b.disabled=true);
-  $('#tttMsg').textContent = 'Victory! Yapbot short-circuited.';
-  $('#tttReset').textContent = 'Play Again';
-  state.progress.ttt = true;
-  showPopup({
-    title: 'Level 1 Clear!',
-    message: 'Yapbot is stunned by your instant win. Ready for a neon-brained Sudoku?',
-    buttonText: 'Continue to Level 2',
-    onConfirm: ()=>{ state.level=2; updateHUD(); initSudoku(); show('#screen-sudoku'); }
-  });
+  if(result==='me'){ state.ttt.score.me++; $('#tttMsg').textContent = `You win the round! ${state.ttt.score.me} - ${state.ttt.score.bot}`; }
+  else if(result==='bot'){ state.ttt.score.bot++; $('#tttMsg').textContent = `Yapbot wins the round! ${state.ttt.score.me} - ${state.ttt.score.bot}`; }
+  else { $('#tttMsg').textContent = `Draw. ${state.ttt.score.me} - ${state.ttt.score.bot}`; }
+  // best of 3
+  if(state.ttt.score.me===2 || state.ttt.score.bot===2 || state.ttt.rounds===3){
+    state.ttt.matchOver = true;
+    if(state.ttt.score.me>state.ttt.score.bot){
+      state.chocolates += 5; updateHUD();
+      $('#tttMsg').textContent = `Victory! +5 chocolates. Kia is setting up the next challenge…`;
+      $('#tttReset').textContent = 'Play Again';
+      showPopup({
+        title: 'Level 1 Complete!',
+        message: 'You outsmarted Yapbot and earned 5 chocolates. Ready for Kia’s brainy Sudoku challenge?',
+        buttonText: 'Continue to Level 2',
+        onConfirm: ()=>{ state.level=2; updateHUD(); initSudoku(); show('#screen-sudoku'); }
+      });
+    } else {
+      $('#tttMsg').innerHTML = `Yapbot wins the match. <b>Press Reset Round to try again.</b>`;
+      $('#tttReset').textContent = 'Try Again';
+    }
+  } else {
+    setTimeout(()=> resetTTTRound(), 600);
+  }
 }
 
+/******************** Level 2: Sudoku 4x4 ********************/ 
 const presetPuzzles = [
+  // 0 = empty
   [0,0,2,0,  0,0,0,1,  0,4,0,0,  3,0,0,0],
   [1,0,0,0,  0,3,0,4,  0,0,4,0,  0,2,0,1],
-  [0,2,0,0,  0,0,3,0,  0,1,0,4,  0,0,0,0]
+  [0,2,0,0,  0,0,3,0,  0,1,0,4,  0,0,0,0],
 ];
 function initSudoku(){
   const grid = $('#sGrid'); grid.innerHTML='';
@@ -347,61 +340,65 @@ function initSudoku(){
   state.sudoku.puzzle = carvePuzzle(state.sudoku.solution);
   state.sudoku.cleared = false;
   for(let i=0;i<16;i++){
-    const input = document.createElement('input');
-    if(state.sudoku.puzzle[i]!==0){ input.value = state.sudoku.puzzle[i]; input.disabled=true; input.classList.add('block'); }
-    input.maxLength=1; input.inputMode='numeric';
-    input.addEventListener('input', e=>{ e.target.value = e.target.value.replace(/[^1-4]/g,''); });
-    grid.appendChild(input);
+    const inp = document.createElement('input');
+    if(state.sudoku.puzzle[i]!==0){ inp.value=state.sudoku.puzzle[i]; inp.disabled=true; inp.classList.add('block'); }
+    inp.maxLength=1; inp.inputMode='numeric';
+    inp.addEventListener('input',e=>{ e.target.value = e.target.value.replace(/[^1-4]/g,''); });
+    grid.appendChild(inp);
   }
   $('#sMsg').textContent='';
   $('#checkSudoku').disabled=false;
   $('#newSudoku').disabled=false;
 }
+
 function gen4x4Solution(){
+  // simple Latin square 1..4 shifted rows/cols
   const base=[1,2,3,4];
-  const rows=[ base, rotate(base,1), rotate(base,2), rotate(base,3) ];
-  const shuffle = arr => arr.sort(()=>Math.random()-0.5);
-  const rOrder = shuffle([0,1,2,3]);
-  const cOrder = shuffle([0,1,2,3]);
-  const out=[];
-  for(let r=0;r<4;r++){
-    for(let c=0;c<4;c++){
-      out.push(rows[rOrder[r]][cOrder[c]]);
-    }
-  }
+  const rows=[ base, rot(base,1), rot(base,2), rot(base,3) ];
+  // shuffle rows and columns for variety
+  const rnd = a=> a.sort(()=>Math.random()-0.5);
+  let rorder = rnd([0,1,2,3]); let corder = rnd([0,1,2,3]);
+  const sol=[]; for(let r=0;r<4;r++){ for(let c=0;c<4;c++){ sol.push(rows[rorder[r]][corder[c]]); } }
+  return sol;
+}
+function rot(arr,n){ return arr.slice(n).concat(arr.slice(0,n)); }
+function carvePuzzle(sol){
+  // use a preset mask for nicer shapes, then remove a few more
+  const base = presetPuzzles[Math.floor(Math.random()*presetPuzzles.length)].slice();
+  const out = base.map((v,i)=> v? sol[i]: 0);
+  // remove 3 random cells to ensure some blanks
+  const idx=[...Array(16).keys()]; idx.sort(()=>Math.random()-0.5).slice(0,3).forEach(i=> out[i]=0);
   return out;
 }
-function rotate(arr,n){ return arr.slice(n).concat(arr.slice(0,n)); }
-function carvePuzzle(sol){
-  const mask = presetPuzzles[Math.floor(Math.random()*presetPuzzles.length)].slice();
-  const puzzle = mask.map((v,i)=> v ? sol[i] : 0);
-  const indexes=[...Array(16).keys()];
-  indexes.sort(()=>Math.random()-0.5).slice(0,3).forEach(i=> puzzle[i]=0);
-  return puzzle;
-}
+
 $('#newSudoku').addEventListener('click', initSudoku);
 $('#checkSudoku').addEventListener('click', ()=>{
-  if(state.sudoku.cleared) return;
-  const values=[...$('#sGrid').querySelectorAll('input')].map(inp=> +inp.value || 0);
-  if(!isValid(values)){ $('#sMsg').innerHTML = '<span class="err">Not quite — recheck each row and column.</span>'; return; }
+  const vals=[...$('#sGrid').querySelectorAll('input')].map(inp=> +inp.value || 0);
+  if(state.sudoku.cleared){ return; }
+  const ok = isValid4x4(vals);
+  if(!ok){ $('#sMsg').innerHTML = `<span class="err">Not quite right—check rows and columns.</span>`; return; }
+  $('#sMsg').innerHTML = `<span class="ok">Solved! +10 chocolates</span>`;
+  state.chocolates += 10; updateHUD();
   state.sudoku.cleared = true;
-  state.progress.sudoku = true;
-  $('#sMsg').innerHTML = '<span class="ok">Solved! Final stage unlocked.</span>';
-  $('#checkSudoku').disabled=true;
-  $('#newSudoku').disabled=true;
+  $('#checkSudoku').disabled = true;
+  $('#newSudoku').disabled = true;
   showPopup({
     title: 'Level 2 Clear!',
-    message: 'Brains blazing! Time to face the manipulative crocodile with Kia at your side.',
+    message: 'Brilliant mind! Take your 10 chocolates and face the Manipulative Crocodile.',
     buttonText: 'Final Boss →',
     onConfirm: ()=>{ state.level=3; updateHUD(); initBoss(); show('#screen-boss'); }
   });
 });
-function isValid(vals){
+
+function isValid4x4(vals){
+  // must be 1-4 no zeros
   if(vals.some(v=> v<1 || v>4)) return false;
+  // rows
   for(let r=0;r<4;r++){
     const row = vals.slice(r*4,(r+1)*4);
     if(new Set(row).size!==4) return false;
   }
+  // cols
   for(let c=0;c<4;c++){
     const col = [vals[c],vals[c+4],vals[c+8],vals[c+12]];
     if(new Set(col).size!==4) return false;
@@ -409,59 +406,50 @@ function isValid(vals){
   return true;
 }
 
+/******************** Level 3: Boss ********************/ 
 const crocLines=[
   "If they cared, they’d read your mind.",
   "Sharing is losing. Keep it all.",
   "You’re overreacting—again.",
-  "You owe me your silence.",
-  "Your feelings are just glitches."
+  "You owe me your silence."
 ];
 function initBoss(){
-  state.boss.ready=false; state.boss.blocks=0;
-  state.progress.boss = false;
-  state.victoryUnlocked = false;
-  $('#callKia').disabled=false;
-  ['block1','block2','block3'].forEach(id=>{
-    const btn = $('#'+id);
-    btn.disabled=true;
-    btn.classList.remove('good');
-  });
+  state.boss.paid=false; state.boss.blocks=0; $('#block1').disabled=true; $('#block2').disabled=true; $('#block3').disabled=true;
+  ['block1','block2','block3'].forEach(id=>{ $('#'+id).classList.remove('good'); });
+  $('#payKia').disabled=false;
+  $('#payKia').textContent = 'Pay Kia 10 🍫';
   nextCrocLine();
 }
 function nextCrocLine(){ $('#crocLine').textContent = `“${crocLines[Math.floor(Math.random()*crocLines.length)]}”`; }
-$('#callKia').addEventListener('click',()=>{
-  state.boss.ready=true;
-  $('#callKia').disabled=true;
-  $('#crocLine').textContent = 'Kia: “Force-field online. Tap three blocks to shatter the lies!”';
-  ['block1','block2','block3'].forEach(id=> $('#'+id).disabled=false);
+$('#payKia').addEventListener('click',()=>{
+  if(state.boss.paid) return;
+  if(state.chocolates<10){ alert('Not enough chocolates. You need 10.'); return; }
+  state.chocolates-=10; updateHUD(); state.boss.paid=true;
+  $('#block1').disabled=false; $('#block2').disabled=false; $('#block3').disabled=false;
+  $('#payKia').disabled=true;
+  $('#payKia').textContent = 'Kia is with you ✨';
+  $('#crocLine').textContent = 'Kia: “I’m here. Let’s block those lies—tap the three blocks!”';
 });
 ['block1','block2','block3'].forEach(id=>{
-  $('#'+id).addEventListener('click',()=>{
-    if(!state.boss.ready) return;
-    const btn = $('#'+id);
-    if(btn.classList.contains('good')) return;
-    btn.classList.add('good');
-    btn.disabled=true;
+  $("#"+id).addEventListener('click',()=>{
+    if(!state.boss.paid) return;
+    const el = $("#"+id);
+    if(el.classList.contains('good')) return;
+    el.classList.add('good');
     state.boss.blocks++;
-    nextCrocLine();
     if(state.boss.blocks>=3){
-      state.progress.boss = true;
-      revealVictory();
+      state.level = 'Victory ✨';
+      updateHUD();
+      show('#screen-end');
+      return;
     }
+    nextCrocLine();
   });
 });
 
-function revealVictory(){
-  if(!(state.progress.ttt && state.progress.sudoku && state.progress.boss)) return;
-  state.victoryUnlocked = true;
-  state.level = 'Victory!';
-  $$('.screen').forEach(s=>s.classList.remove('active'));
-  $('#screen-end').classList.add('active');
-  updateHUD();
-}
-
+/******************** Ending ********************/ 
 $('#giftBox').addEventListener('click',()=>{
-  $('#giftMsg').textContent = '💌 Opened';
+  $('#giftMsg').textContent = '💌';
   $('#wish').style.display='block';
 });
 $('#playAgain').addEventListener('click',()=> location.reload());
