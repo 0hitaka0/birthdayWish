@@ -323,7 +323,6 @@ function endRound(result){
       $('#tttReset').textContent = 'Try Again';
     }
   } else {
-    // prepare next round
     setTimeout(()=> resetTTTRound(), 600);
   }
 }
@@ -356,7 +355,7 @@ function gen4x4Solution(){
   // simple Latin square 1..4 shifted rows/cols
   const base=[1,2,3,4];
   const rows=[ base, rot(base,1), rot(base,2), rot(base,3) ];
-  // shuffle rows and columns within 2x2 sub-blocks for variety
+  // shuffle rows and columns for variety
   const rnd = a=> a.sort(()=>Math.random()-0.5);
   let rorder = rnd([0,1,2,3]); let corder = rnd([0,1,2,3]);
   const sol=[]; for(let r=0;r<4;r++){ for(let c=0;c<4;c++){ sol.push(rows[rorder[r]][corder[c]]); } }
@@ -378,7 +377,6 @@ $('#checkSudoku').addEventListener('click', ()=>{
   if(state.sudoku.cleared){ return; }
   const ok = isValid4x4(vals);
   if(!ok){ $('#sMsg').innerHTML = `<span class="err">Not quite right—check rows and columns.</span>`; return; }
-  // compare to solution set (allow any valid solution; for simplicity check via constraints only)
   $('#sMsg').innerHTML = `<span class="ok">Solved! +10 chocolates</span>`;
   state.chocolates += 10; updateHUD();
   state.sudoku.cleared = true;
